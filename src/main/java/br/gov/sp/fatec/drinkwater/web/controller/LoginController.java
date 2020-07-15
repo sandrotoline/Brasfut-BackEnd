@@ -27,11 +27,15 @@ public class LoginController {
     
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     @CrossOrigin(exposedHeaders = "Token")
-    public ResponseEntity<Usuario> login(@RequestBody Login login, HttpServletResponse response) throws JsonProcessingException {
-        Authentication credentials = new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword());
+    public ResponseEntity<Login> login(@RequestBody Login login, HttpServletResponse response) throws JsonProcessingException {
+        String username = login.getUsername();
+        String password = login.getPassword();
+        Authentication credentials = new UsernamePasswordAuthenticationToken(username, password);
         Usuario usuario = (Usuario) auth.authenticate(credentials).getPrincipal();
         response.setHeader("Token", JwtUtils.generateToken(usuario));
-        return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
+        login.setPassword(null);
+        login.setToken(JwtUtils.generateToken(usuario));
+        return new ResponseEntity<Login>(login, HttpStatus.OK);
     }
 
 
