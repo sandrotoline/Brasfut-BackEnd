@@ -1,6 +1,7 @@
 package br.gov.sp.fatec.drinkwater.web.controller;
 
 import java.util.Collection;
+import java.util.List;
 
 import br.gov.sp.fatec.drinkwater.model.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +31,13 @@ public class UsuarioController {
 	}
 	
 	@RequestMapping(value = "/get/{nome}", method = RequestMethod.GET)
-	@JsonView(View.UsuarioCompleto.class)
+//	@JsonView(View.UsuarioCompleto.class)
 	public ResponseEntity<Usuario> pesquisar(@PathVariable("nome") String nome) {
 		return new ResponseEntity<Usuario>(usuarioService.buscarPorNome(nome), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/getById", method = RequestMethod.GET)
-	@JsonView(View.UsuarioCompleto.class)
+//	@JsonView(View.UsuarioCompleto.class)
 	public ResponseEntity<Usuario> get(@RequestParam(value="id", defaultValue="1") Long id) {
 		Usuario usuario = usuarioService.buscarPorId(id);
 		if(usuario == null) {
@@ -46,13 +47,15 @@ public class UsuarioController {
 	}
 	
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
-	@JsonView(View.UsuarioResumoAlternativo.class)
+	@ResponseBody
+//	@JsonView(View.UsuarioResumoAlternativo.class)
 	public ResponseEntity<Collection<Usuario>> getAll() {
-		return new ResponseEntity<Collection<Usuario>>(usuarioService.todos(), HttpStatus.OK);
+		List<Usuario> todos = usuarioService.todos();
+		return new ResponseEntity<Collection<Usuario>>(todos, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	@JsonView(View.UsuarioCompleto.class)
+//	@JsonView(View.UsuarioCompleto.class)
 	public ResponseEntity<Usuario> save(@RequestBody Usuario usuario, UriComponentsBuilder uriComponentsBuilder) {
 		usuario = usuarioService.salvar(usuario);
 		HttpHeaders responseHeaders = new HttpHeaders();

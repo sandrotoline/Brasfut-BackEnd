@@ -82,6 +82,7 @@ public class HistoricoConsumoServiceImpl implements HistoricoConsumoService {
 		historicoConsumo.setObservacao(observacao);
 		historicoConsumo.setConsumoMl(consumoMl);
 		historicoConsumo.setUsuario(usuario);
+		historicoConsumoRepo.save(historicoConsumo);
 		return historicoConsumo;
 	}
 

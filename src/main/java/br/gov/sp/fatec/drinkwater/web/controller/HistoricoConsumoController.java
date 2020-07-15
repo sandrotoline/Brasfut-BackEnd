@@ -1,6 +1,7 @@
 package br.gov.sp.fatec.drinkwater.web.controller;
 
 import java.util.Collection;
+import java.util.List;
 
 import br.gov.sp.fatec.drinkwater.model.HistoricoConsumo;
 import br.gov.sp.fatec.drinkwater.service.HistoricoConsumoService;
@@ -39,7 +40,18 @@ public class HistoricoConsumoController {
 		return new ResponseEntity<HistoricoConsumo>(historicoConsumo, HttpStatus.OK);
 	}
 
+	@GetMapping("/getByUser/{nome}")
+	//	@JsonView(View.Anotacao.class)
+	public ResponseEntity<Collection<HistoricoConsumo>> buscaPorNome(@PathVariable(value="nome") String nome) {
+		List<HistoricoConsumo> historicoConsumo = historicoConsumoService.buscarPorUsuario(nome);
+		if(historicoConsumo == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Collection<HistoricoConsumo>>(historicoConsumo, HttpStatus.OK);
+	}
+
 	@GetMapping("/getAll")
+	@ResponseBody
 //	@JsonView(View.Anotacao.class)
 	public ResponseEntity<Collection<HistoricoConsumo>> getAll() {
 		return new ResponseEntity<Collection<HistoricoConsumo>>(historicoConsumoService.todos(), HttpStatus.OK);
