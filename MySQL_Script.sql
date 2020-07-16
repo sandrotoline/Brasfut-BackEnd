@@ -2,6 +2,9 @@ create schema track;
 
 use track;
 
+create user 'user'@'localhost' identified by 'pass123';
+
+grant select, insert, delete, update on track.* to user@'localhost';
 
 create table usr_usuario(
     usr_id bigint auto_increment primary key,
@@ -35,11 +38,24 @@ create table hist_historico_consumo(
 insert into usr_usuario (usr_nome,  usr_senha)
   values ('admin', '$2a$10$i3.Z8Yv1Fwl0I5SNjdCGkOTRGQjGvHjh/gMZhdc3e7LIovAklqM6C');
 
+insert into usr_usuario (usr_nome,  usr_senha)
+  values ('teste', '$2a$10$y4jfnSO7vDPc06yAPIzN0udaCB.oB9eZjOriJaEQwnFI3yggnuLsO');
+
+
 insert into aut_autorizacao (aut_nome)
   value ('ROLE_ADMIN');
+
+insert into aut_autorizacao (aut_nome)
+  value ('ROLE_USER');
 
 insert into uau_usuario_autorizacao (usr_id, aut_id)
   select usr_id, aut_id
     from usr_usuario, aut_autorizacao
     where usr_nome = 'admin'
     and aut_nome = 'ROLE_ADMIN';
+
+insert into uau_usuario_autorizacao (usr_id, aut_id)
+  select usr_id, aut_id
+    from usr_usuario, aut_autorizacao
+    where usr_nome = 'teste'
+    and aut_nome = 'ROLE_USER';
