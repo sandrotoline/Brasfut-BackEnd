@@ -57,6 +57,13 @@ public class HistoricoConsumoController {
 		return new ResponseEntity<Collection<HistoricoConsumo>>(historicoConsumoService.todos(), HttpStatus.OK);
 	}
 
+	@GetMapping("/getConsumoHojePorUsuario/{nome}")
+	@ResponseBody
+//	@JsonView(View.Anotacao.class)
+	public ResponseEntity<Long> getConsumoHojePorUsuario(@PathVariable(value="nome") String nome) {
+		return new ResponseEntity<Long>(historicoConsumoService.getTotalDeConsumoHoje(nome), HttpStatus.OK);
+	}
+
 //	@RequestMapping(value = "/save", method = RequestMethod.POST)
 ////	@JsonView(View.Anotacao.class)
 //	public ResponseEntity<Anotacao> salvar(@RequestBody Anotacao anotacao, UriComponentsBuilder uriComponentsBuilder) {

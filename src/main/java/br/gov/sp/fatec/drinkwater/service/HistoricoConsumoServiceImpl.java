@@ -98,6 +98,19 @@ public class HistoricoConsumoServiceImpl implements HistoricoConsumoService {
 	@Override
 //    @PreAuthorize("isAuthenticated()")
 	public List<HistoricoConsumo> buscaHistoricoConsumoDeUsuarioPorData(Calendar dataInicial, Calendar dataFinal, String nome) {
-		return historicoConsumoRepo.findAllByDatahoraBetweenAndUsuarioNome(dataFinal, dataInicial, nome);
+		return historicoConsumoRepo.findAllByDatahoraBetweenAndUsuarioNome(dataInicial, dataFinal, nome);
 	}
+
+	public Long getTotalDeConsumoHoje(String nome) {
+	    Calendar horaInicial = Calendar.getInstance();
+        Calendar horaFinal = Calendar.getInstance();
+	    horaInicial.set(Calendar.HOUR_OF_DAY, 0);
+	    horaFinal.set(Calendar.HOUR_OF_DAY, 23);
+        List<HistoricoConsumo> historicos = historicoConsumoRepo.findAllByDatahoraBetweenAndUsuarioNome(horaInicial, horaFinal, nome);
+        Long totalDeConsumo = 0L;
+        for (HistoricoConsumo hist : historicos) {
+            totalDeConsumo += hist.getConsumoMl();
+        }
+        return totalDeConsumo;
+    }
 }

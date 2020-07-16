@@ -20,4 +20,7 @@ public interface HistoricoConsumoService {
 	public List<HistoricoConsumo> buscarPorUsuario(String nome);
 
 	public List<HistoricoConsumo> buscaHistoricoConsumoDeUsuarioPorData(Calendar dataInicial, Calendar dataFinal, String nome);
+
+    public Long getTotalDeConsumoHoje(String nome);
+
 }

@@ -69,4 +69,13 @@ public class UsuarioController {
 //        response.addHeader("Location", request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/usuario/getById?id=" + usuario.getId());
 		return new ResponseEntity<UsuarioDTO>(usuario, HttpStatus.CREATED);
 	}
+
+	@PostMapping("/setMetaDiaria")
+	public ResponseEntity<Usuario> addUsuario(@RequestBody Usuario usuario, UriComponentsBuilder uriComponentsBuilder) {
+		Usuario usuario1 = usuarioService.alteraConsumoMl(usuario.getMetadiaria(), usuario.getNome());
+		if (usuario1 != null) {
+			return new ResponseEntity<Usuario>(usuario1, HttpStatus.CREATED);
+		}
+		return new ResponseEntity<Usuario>(HttpStatus.NOT_FOUND);
+	}
 }

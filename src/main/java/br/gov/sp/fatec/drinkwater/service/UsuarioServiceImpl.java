@@ -95,6 +95,16 @@ public class UsuarioServiceImpl implements UsuarioService {
 		return usuarioRepo.save(usuario);
 	}
 
+	public Usuario alteraConsumoMl(Long meta, String nome){
+		Usuario usuario = buscarPorNome(nome);
+		if (usuario == null) {
+			return null;
+		}
+		usuario.setMetadiaria(meta);
+		usuarioRepo.save(usuario);
+		return usuario;
+	}
+
 	private String md5(String senha) {
 		try {
 			MessageDigest algorithm = MessageDigest.getInstance("MD5");

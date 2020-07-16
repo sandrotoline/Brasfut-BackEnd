@@ -17,4 +17,5 @@ public interface UsuarioService {
 	
 	public Usuario salvar(Usuario usuario);
 
+	public Usuario alteraConsumoMl(Long meta, String nome);
 }

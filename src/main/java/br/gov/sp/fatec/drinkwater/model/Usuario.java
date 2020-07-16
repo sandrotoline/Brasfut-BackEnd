@@ -71,7 +71,15 @@ public class Usuario implements UserDetails{
 	public void setAutorizacoes(List<Autorizacao> autorizacoes) {
 		this.autorizacoes = autorizacoes;
 	}
-	
+
+	public Long getMetadiaria() {
+		return metadiaria;
+	}
+
+	public void setMetadiaria(Long metadiaria) {
+		this.metadiaria = metadiaria;
+	}
+
 	@Override
 	@JsonIgnore
 	public Collection<? extends GrantedAuthority> getAuthorities() {
