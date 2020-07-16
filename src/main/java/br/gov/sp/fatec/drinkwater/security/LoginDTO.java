@@ -1,9 +1,14 @@
 package br.gov.sp.fatec.drinkwater.security;
 
-public class Login {
+import br.gov.sp.fatec.drinkwater.model.Autorizacao;
+
+import java.util.List;
+
+public class LoginDTO {
 	
 	private String username;
 	private String password;
+	private List<Autorizacao> autorizacoes;
 
 	public String getToken() {
 		return token;
@@ -16,7 +21,7 @@ public class Login {
 	private String token;
 
 
-	public Login() {
+	public LoginDTO() {
 	}
 	
 	public String getUsername() {
@@ -32,6 +37,14 @@ public class Login {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public List<Autorizacao> getAutorizacoes() {
+		return autorizacoes;
+	}
+
+	public void setAutorizacoes(List<Autorizacao> autorizacoes) {
+		this.autorizacoes = autorizacoes;
 	}
 
 }

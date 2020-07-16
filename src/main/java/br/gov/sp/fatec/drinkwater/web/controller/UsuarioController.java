@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import br.gov.sp.fatec.drinkwater.model.Usuario;
+import br.gov.sp.fatec.drinkwater.security.ChangePassDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping(value = "/usuario")
+@CrossOrigin
 public class UsuarioController {
 	
 	@Autowired
@@ -31,13 +33,13 @@ public class UsuarioController {
 	}
 	
 	@RequestMapping(value = "/get/{nome}", method = RequestMethod.GET)
-//	@JsonView(View.UsuarioCompleto.class)
+	@JsonView(View.UsuarioCompleto.class)
 	public ResponseEntity<Usuario> pesquisar(@PathVariable("nome") String nome) {
 		return new ResponseEntity<Usuario>(usuarioService.buscarPorNome(nome), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/getById", method = RequestMethod.GET)
-//	@JsonView(View.UsuarioCompleto.class)
+	@JsonView(View.UsuarioCompleto.class)
 	public ResponseEntity<Usuario> get(@RequestParam(value="id", defaultValue="1") Long id) {
 		Usuario usuario = usuarioService.buscarPorId(id);
 		if(usuario == null) {
@@ -48,14 +50,23 @@ public class UsuarioController {
 	
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	@ResponseBody
-//	@JsonView(View.UsuarioResumoAlternativo.class)
+	@JsonView(View.UsuarioResumoAlternativo.class)
 	public ResponseEntity<Collection<Usuario>> getAll() {
 		List<Usuario> todos = usuarioService.todos();
 		return new ResponseEntity<Collection<Usuario>>(todos, HttpStatus.OK);
 	}
+
+	@RequestMapping(value = "/changePass", method = RequestMethod.POST)
+	@JsonView(View.UsuarioCompleto.class)
+	public ResponseEntity<Usuario> changePass(@RequestBody ChangePassDTO changePassDTO, HttpServletRequest request, HttpServletResponse response) {
+		Usuario usuario = usuarioService.changePass(changePassDTO);
+		HttpHeaders responseHeaders = new HttpHeaders();
+		//responseHeaders.setLocation(uriComponentsBuilder.path("/getById?id=" + usuario.getId()).build().toUri());
+		return new ResponseEntity<Usuario>(usuario, responseHeaders, HttpStatus.CREATED);
+	}
 	
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-//	@JsonView(View.UsuarioCompleto.class)
+	@JsonView(View.UsuarioCompleto.class)
 	public ResponseEntity<Usuario> save(@RequestBody Usuario usuario, UriComponentsBuilder uriComponentsBuilder) {
 		usuario = usuarioService.salvar(usuario);
 		HttpHeaders responseHeaders = new HttpHeaders();
@@ -68,6 +79,12 @@ public class UsuarioController {
 		usuarioService.incluirUsuario(usuario.getNome(), usuario.getSenha(), usuario.getAutorizacao());
 //        response.addHeader("Location", request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/usuario/getById?id=" + usuario.getId());
 		return new ResponseEntity<UsuarioDTO>(usuario, HttpStatus.CREATED);
+	}
+	@PostMapping("/deleteUser")
+	public ResponseEntity<UsuarioDTO> apagarUsuario(@RequestBody UsuarioDTO usuario, UriComponentsBuilder uriComponentsBuilder) {
+		usuarioService.removerUsuario(usuario.getNome());
+//        response.addHeader("Location", request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/usuario/getById?id=" + usuario.getId());
+		return new ResponseEntity<UsuarioDTO>(usuario, HttpStatus.OK);
 	}
 
 	@PostMapping("/setMetaDiaria")

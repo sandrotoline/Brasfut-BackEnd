@@ -11,6 +11,7 @@ import br.gov.sp.fatec.drinkwater.model.Autorizacao;
 import br.gov.sp.fatec.drinkwater.model.Usuario;
 import br.gov.sp.fatec.drinkwater.repository.AutorizacaoRepository;
 import br.gov.sp.fatec.drinkwater.repository.UsuarioRepository;
+import br.gov.sp.fatec.drinkwater.security.ChangePassDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
-//	@PreAuthorize("hasRole('ROLE_ADMIN')")
+  	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@Transactional
 	public Usuario incluirUsuario(String nome, String senha, String nomeAutorizacao) {
 		Autorizacao autorizacao = autorizacaoRepo.findByNome(nomeAutorizacao);
@@ -55,12 +56,25 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@Transactional
+	public Usuario removerUsuario(String nome) {
+		Usuario usuario = buscarPorNome(nome);
+
+		if (usuario==null){
+			return null;
+		}
+		usuarioRepo.delete(usuario);
+		return usuario;
+	}
+
+	@Override
 	public Usuario buscarPorNome(String nome) {
 		return usuarioRepo.findByNome(nome);
 	}
 	
 	@Override
-//	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("isAuthenticated()")
 	public Usuario buscarPorId(Long id) {
 		Optional<Usuario> usuario =  usuarioRepo.findById(id);
 		if(usuario.isPresent()) {
@@ -70,7 +84,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
-//	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("isAuthenticated()")
 	public List<Usuario> todos() {
 		List<Usuario> retorno = new ArrayList<Usuario>();
 		for(Usuario usuario: usuarioRepo.findAll()) {
@@ -80,7 +94,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 	
 	@Override
-//	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@Transactional
 	public Usuario salvar(Usuario usuario) {
 		if(!usuario.getAutorizacoes().isEmpty()) {
@@ -93,6 +107,18 @@ public class UsuarioServiceImpl implements UsuarioService {
 		}
 		usuario.setSenha(md5(usuario.getSenha()));
 		return usuarioRepo.save(usuario);
+	}
+
+	@Override
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@Transactional
+	public Usuario changePass(ChangePassDTO changePassDTO) {
+		Usuario usuario = buscarPorNome(changePassDTO.getUsername());
+		if(usuario != null && usuario.getSenha().equals(md5(changePassDTO.getOldPass()))){
+			usuario.setSenha(md5(usuario.getSenha()));
+			return usuarioRepo.save(usuario);
+		}
+		return null;
 	}
 
 	public Usuario alteraConsumoMl(Long meta, String nome){

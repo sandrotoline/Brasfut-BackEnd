@@ -17,6 +17,12 @@ public class View {
 	 */
 	public static class UsuarioCompleto extends UsuarioResumo {
 	}
+
+	public static class HistoricoResumo{
+	}
+
+	public static class HistoricoCompleto extends HistoricoResumo {
+	}
 	
 	/**
 	 * Visualizacao alternativa

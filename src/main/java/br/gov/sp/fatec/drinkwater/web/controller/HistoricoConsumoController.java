@@ -31,7 +31,7 @@ public class HistoricoConsumoController {
 	}
 
 	@GetMapping("/getById/{id}")
-	//	@JsonView(View.Anotacao.class)
+	@JsonView(View.HistoricoCompleto.class)
 	public ResponseEntity<HistoricoConsumo> buscaPorId(@PathVariable(value="id") Integer id) {
 		HistoricoConsumo historicoConsumo = historicoConsumoService.buscarPorId(id);
 		if(historicoConsumo == null) {
@@ -41,7 +41,7 @@ public class HistoricoConsumoController {
 	}
 
 	@GetMapping("/getByUser/{nome}")
-	//	@JsonView(View.Anotacao.class)
+	@JsonView(View.HistoricoCompleto.class)
 	public ResponseEntity<Collection<HistoricoConsumo>> buscaPorNome(@PathVariable(value="nome") String nome) {
 		List<HistoricoConsumo> historicoConsumo = historicoConsumoService.buscarPorUsuario(nome);
 		if(historicoConsumo == null) {
@@ -52,14 +52,14 @@ public class HistoricoConsumoController {
 
 	@GetMapping("/getAll")
 	@ResponseBody
-//	@JsonView(View.Anotacao.class)
+	@JsonView(View.HistoricoCompleto.class)
 	public ResponseEntity<Collection<HistoricoConsumo>> getAll() {
 		return new ResponseEntity<Collection<HistoricoConsumo>>(historicoConsumoService.todos(), HttpStatus.OK);
 	}
 
 	@GetMapping("/getConsumoHojePorUsuario/{nome}")
 	@ResponseBody
-//	@JsonView(View.Anotacao.class)
+	@JsonView(View.HistoricoCompleto.class)
 	public ResponseEntity<Long> getConsumoHojePorUsuario(@PathVariable(value="nome") String nome) {
 		return new ResponseEntity<Long>(historicoConsumoService.getTotalDeConsumoHoje(nome), HttpStatus.OK);
 	}
@@ -74,7 +74,7 @@ public class HistoricoConsumoController {
 //	}
 
 	@PostMapping("/addHistorico")
-//	@JsonView(View.HistoricoResumo.class)
+	@JsonView(View.HistoricoResumo.class)
 	public ResponseEntity<HistoricoConsumo> addHistoricoConsumo(@RequestBody HistoricoConsumoDTO historicoConsumo, HttpServletRequest request, HttpServletResponse response) {
 		HistoricoConsumo historicoConsumo1 = historicoConsumoService.incluirHistoricoConsumo(historicoConsumo.getConsumoMl(),
 				historicoConsumo.getUsuario(), historicoConsumo.getObservacao());

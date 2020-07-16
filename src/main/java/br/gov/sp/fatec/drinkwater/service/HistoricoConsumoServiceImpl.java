@@ -29,7 +29,7 @@ public class HistoricoConsumoServiceImpl implements HistoricoConsumoService {
 	}
 
 	@Override
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
 	public HistoricoConsumo salvar(HistoricoConsumo historicoConsumo) {
 		if(historicoConsumo.getUsuario() != null) {
 			Usuario usuario = historicoConsumo.getUsuario();
@@ -69,13 +69,12 @@ public class HistoricoConsumoServiceImpl implements HistoricoConsumoService {
 
 	@Override
 	@Transactional
-//    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
 	public HistoricoConsumo incluirHistoricoConsumo(Long consumoMl, String nomeUsuario, String observacao) {
 		Usuario usuario = usuarioRepo.findByNome(nomeUsuario);
 		if (usuario == null) {
 			return null;
 		}
-		List<HistoricoConsumo> historico = historicoConsumoRepo.findAllByUsuarioNome(nomeUsuario);
 
 		HistoricoConsumo historicoConsumo = new HistoricoConsumo();
 		historicoConsumo.setDatahora(Calendar.getInstance());
@@ -87,7 +86,7 @@ public class HistoricoConsumoServiceImpl implements HistoricoConsumoService {
 	}
 
 	@Override
-//    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()")
 	public List<HistoricoConsumo> buscarPorUsuario(String nome) {
 		if(nome == null || nome.isEmpty()) {
 			return todos();
@@ -96,7 +95,7 @@ public class HistoricoConsumoServiceImpl implements HistoricoConsumoService {
 	}
 
 	@Override
-//    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()")
 	public List<HistoricoConsumo> buscaHistoricoConsumoDeUsuarioPorData(Calendar dataInicial, Calendar dataFinal, String nome) {
 		return historicoConsumoRepo.findAllByDatahoraBetweenAndUsuarioNome(dataInicial, dataFinal, nome);
 	}

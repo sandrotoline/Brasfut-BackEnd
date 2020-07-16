@@ -1,5 +1,8 @@
 package br.gov.sp.fatec.drinkwater.model;
 
+import br.gov.sp.fatec.drinkwater.view.View;
+import com.fasterxml.jackson.annotation.JsonView;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Calendar;
@@ -13,24 +16,23 @@ public class HistoricoConsumo implements Serializable {
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	@Column(name = "HIST_ID")
-//	@JsonView(View.HistoricoCompleto.class)
 	private Long id;
 
 	@Column(name = "HIST_DATAHORA", nullable = false)
-//	@JsonView(View.HistoricoResumo.class)
+	@JsonView(View.HistoricoResumo.class)
 	private Calendar datahora;
 
 	@Column(name = "HIST_CONSUMO_ML", nullable = false)
-//	@JsonView(View.HistoricoResumo.class)
+	@JsonView(View.HistoricoResumo.class)
 	private Long consumoMl;
 
 	@Column(name = "HIST_OBSERVACAO", length = 50)
-//	@JsonView(View.HistoricoCompleto.class)
+	@JsonView(View.HistoricoCompleto.class)
 	private String observacao;
 
 	@ManyToOne(fetch = FetchType.EAGER, optional = true)
 	@JoinColumn(name = "USR_ID", nullable = false)
-//	@JsonView(View.HistoricoCompleto.class)
+	@JsonView(View.HistoricoCompleto.class)
 	private Usuario usuario;
 
 	public Long getId() {

@@ -18,11 +18,9 @@ public class Autorizacao implements GrantedAuthority {
 	@Id 
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "AUT_ID")
-//	@JsonView({View.UsuarioCompleto.class, View.Autorizacao.class})
 	private Long id;
     
     @Column(name = "AUT_NOME", unique=true, length = 20, nullable = false)
-//    @JsonView({View.UsuarioResumo.class, View.UsuarioResumoAlternativo.class, View.Autorizacao.class})
     private String nome;
     
 	public Long getId() {
