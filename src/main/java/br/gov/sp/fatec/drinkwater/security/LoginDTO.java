@@ -9,6 +9,7 @@ public class LoginDTO {
 	private String username;
 	private String password;
 	private List<Autorizacao> autorizacoes;
+	private Long metadiaria;
 
 	public String getToken() {
 		return token;
@@ -47,4 +48,11 @@ public class LoginDTO {
 		this.autorizacoes = autorizacoes;
 	}
 
+	public Long getMetadiaria() {
+		return metadiaria;
+	}
+
+	public void setMetadiaria(Long metadiaria) {
+		this.metadiaria = metadiaria;
+	}
 }

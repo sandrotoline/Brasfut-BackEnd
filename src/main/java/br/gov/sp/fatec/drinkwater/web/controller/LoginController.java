@@ -36,6 +36,7 @@ public class LoginController {
         loginDTO.setPassword(null);
         loginDTO.setToken(JwtUtils.generateToken(usuario));
         loginDTO.setAutorizacoes(usuario.getAutorizacoes());
+        loginDTO.setMetadiaria(usuario.getMetadiaria());
         return new ResponseEntity<LoginDTO>(loginDTO, HttpStatus.OK);
     }
 

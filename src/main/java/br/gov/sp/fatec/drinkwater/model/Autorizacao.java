@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import br.gov.sp.fatec.drinkwater.view.View;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
@@ -21,7 +23,8 @@ public class Autorizacao implements GrantedAuthority {
 	private Long id;
     
     @Column(name = "AUT_NOME", unique=true, length = 20, nullable = false)
-    private String nome;
+	@JsonView({View.UsuarioCompleto.class,  View.UsuarioResumoAlternativo.class})
+	private String nome;
     
 	public Long getId() {
 		return id;

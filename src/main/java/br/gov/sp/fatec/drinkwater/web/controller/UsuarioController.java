@@ -56,6 +56,14 @@ public class UsuarioController {
 		return new ResponseEntity<Collection<Usuario>>(todos, HttpStatus.OK);
 	}
 
+	@RequestMapping(value = "/getAllComplete", method = RequestMethod.GET)
+	@ResponseBody
+	@JsonView(View.UsuarioCompleto.class)
+	public ResponseEntity<Collection<Usuario>> getAllComplete() {
+		List<Usuario> todos = usuarioService.todos();
+		return new ResponseEntity<Collection<Usuario>>(todos, HttpStatus.OK);
+	}
+
 	@RequestMapping(value = "/changePass", method = RequestMethod.POST)
 	@JsonView(View.UsuarioCompleto.class)
 	public ResponseEntity<Usuario> changePass(@RequestBody ChangePassDTO changePassDTO, HttpServletRequest request, HttpServletResponse response) {
@@ -88,7 +96,7 @@ public class UsuarioController {
 	}
 
 	@PostMapping("/setMetaDiaria")
-	public ResponseEntity<Usuario> addUsuario(@RequestBody Usuario usuario, UriComponentsBuilder uriComponentsBuilder) {
+	public ResponseEntity<Usuario> setMetaDiaria(@RequestBody Usuario usuario, UriComponentsBuilder uriComponentsBuilder) {
 		Usuario usuario1 = usuarioService.alteraConsumoMl(usuario.getMetadiaria(), usuario.getNome());
 		if (usuario1 != null) {
 			return new ResponseEntity<Usuario>(usuario1, HttpStatus.CREATED);

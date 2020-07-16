@@ -38,6 +38,9 @@ public class UsuarioServiceImpl implements UsuarioService {
   	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@Transactional
 	public Usuario incluirUsuario(String nome, String senha, String nomeAutorizacao) {
+		if (nomeAutorizacao == null) {
+			nomeAutorizacao = "ROLE_USER";
+		}
 		Autorizacao autorizacao = autorizacaoRepo.findByNome(nomeAutorizacao);
 		// Se nao existe
 		if(autorizacao == null) {
