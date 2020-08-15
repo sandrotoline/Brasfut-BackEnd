@@ -1,7 +1,7 @@
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/sandrotoline/Brasfut-BackEnd/)
-## Brasfut
+## ConsuMax
 
-Projeto Brasfut é uma uma API REST criada usando Spring Boot e Hibernate. A autenticação/autorização é realizada pelo Spring Security e utiliza JWT, com o intuito de armanezar o consumo de água do usuário.
+Projeto ConsuMax é uma uma API REST criada usando Spring Boot e Hibernate. A autenticação/autorização é realizada pelo Spring Security e utiliza JWT, com o intuito de armanezar o consumo de água do usuário.
 
 Há duas autorizações: ROLE_ADMIN e ROLE_USER.
 
