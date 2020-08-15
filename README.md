@@ -1,4 +1,4 @@
-[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/sandrotoline/Brasfut-BackEnd/)
 ## Brasfut
 
 Projeto Brasfut é uma uma API REST criada usando Spring Boot e Hibernate. A autenticação/autorização é realizada pelo Spring Security e utiliza JWT, com o intuito de armanezar o consumo de água do usuário.
