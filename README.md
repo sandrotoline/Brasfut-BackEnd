@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)]
 
 ## Brasfut
 
 Projeto Brasfut é uma uma API REST criada usando Spring Boot e Hibernate. A autenticação/autorização é realizada pelo Spring Security e utiliza JWT, com o intuito de armanezar o consumo de água do usuário.
+=======
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/jesscahelen/drink-water-back-end/)
+
+## Drink Water
+
+Projeto Drink Water é uma uma API REST criada usando Spring Boot e Hibernate. A autenticação/autorização é realizada pelo Spring Security e utiliza JWT, com o intuito de armanezar o consumo de água do usuário.
+>>>>>>> b360b37460ae607cb93b575c335f7f5ed6dc0da3
 
 Há duas autorizações: ROLE_ADMIN e ROLE_USER.
 
