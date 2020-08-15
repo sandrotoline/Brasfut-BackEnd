@@ -56,13 +56,25 @@ public class UsuarioController {
 		return new ResponseEntity<Collection<Usuario>>(todos, HttpStatus.OK);
 	}
 
+	@RequestMapping(value = "/getAllComplete", method = RequestMethod.GET)
+	@ResponseBody
+	@JsonView(View.UsuarioCompleto.class)
+	public ResponseEntity<Collection<Usuario>> getAllComplete() {
+		List<Usuario> todos = usuarioService.todos();
+		return new ResponseEntity<Collection<Usuario>>(todos, HttpStatus.OK);
+	}
+
 	@RequestMapping(value = "/changePass", method = RequestMethod.POST)
 	@JsonView(View.UsuarioCompleto.class)
 	public ResponseEntity<Usuario> changePass(@RequestBody ChangePassDTO changePassDTO, HttpServletRequest request, HttpServletResponse response) {
 		Usuario usuario = usuarioService.changePass(changePassDTO);
-		HttpHeaders responseHeaders = new HttpHeaders();
-		//responseHeaders.setLocation(uriComponentsBuilder.path("/getById?id=" + usuario.getId()).build().toUri());
-		return new ResponseEntity<Usuario>(usuario, responseHeaders, HttpStatus.CREATED);
+		if (usuario != null) {
+			return new ResponseEntity<Usuario>(usuario, HttpStatus.CREATED);
+		}
+		else {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+
 	}
 	
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -88,7 +100,7 @@ public class UsuarioController {
 	}
 
 	@PostMapping("/setMetaDiaria")
-	public ResponseEntity<Usuario> addUsuario(@RequestBody Usuario usuario, UriComponentsBuilder uriComponentsBuilder) {
+	public ResponseEntity<Usuario> setMetaDiaria(@RequestBody Usuario usuario, UriComponentsBuilder uriComponentsBuilder) {
 		Usuario usuario1 = usuarioService.alteraConsumoMl(usuario.getMetadiaria(), usuario.getNome());
 		if (usuario1 != null) {
 			return new ResponseEntity<Usuario>(usuario1, HttpStatus.CREATED);

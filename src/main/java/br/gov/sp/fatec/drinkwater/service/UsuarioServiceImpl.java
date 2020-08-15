@@ -14,6 +14,7 @@ import br.gov.sp.fatec.drinkwater.repository.UsuarioRepository;
 import br.gov.sp.fatec.drinkwater.security.ChangePassDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +39,9 @@ public class UsuarioServiceImpl implements UsuarioService {
   	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@Transactional
 	public Usuario incluirUsuario(String nome, String senha, String nomeAutorizacao) {
+		if (nomeAutorizacao == null) {
+			nomeAutorizacao = "ROLE_USER";
+		}
 		Autorizacao autorizacao = autorizacaoRepo.findByNome(nomeAutorizacao);
 		// Se nao existe
 		if(autorizacao == null) {
@@ -48,7 +52,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		}
 		Usuario usuario = new Usuario();
 		usuario.setNome(nome);
-		usuario.setSenha(md5(senha));
+		usuario.setSenha(new BCryptPasswordEncoder().encode(senha));
 		usuario.setAutorizacoes(new ArrayList<Autorizacao>());
 		usuario.getAutorizacoes().add(autorizacao);
 		usuarioRepo.save(usuario);
@@ -94,7 +98,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 	
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("isAuthenticated()")
 	@Transactional
 	public Usuario salvar(Usuario usuario) {
 		if(!usuario.getAutorizacoes().isEmpty()) {
@@ -110,17 +114,18 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("isAuthenticated()")
 	@Transactional
 	public Usuario changePass(ChangePassDTO changePassDTO) {
 		Usuario usuario = buscarPorNome(changePassDTO.getUsername());
-		if(usuario != null && usuario.getSenha().equals(md5(changePassDTO.getOldPass()))){
-			usuario.setSenha(md5(usuario.getSenha()));
+		if(usuario != null){
+			usuario.setSenha(new BCryptPasswordEncoder().encode(changePassDTO.getNewPass()));
 			return usuarioRepo.save(usuario);
 		}
 		return null;
 	}
 
+	@PreAuthorize("isAuthenticated()")
 	public Usuario alteraConsumoMl(Long meta, String nome){
 		Usuario usuario = buscarPorNome(nome);
 		if (usuario == null) {
